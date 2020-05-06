@@ -1,0 +1,63 @@
+<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        var order = new Array(1, 2, 3, 4);
+        var current = 0; //current trial
+
+
+        $(document).ready(function () {
+            ShowTrial(current);
+        });
+
+        function ShowTrial(t) {
+            var N = t + 1; //counting from 1
+            $("#page" + order[t]).show();
+            
+            $(".progress").text('(' + N + '/' + order.length + ')');
+        }
+
+        function NextTrial() {
+            $("#page" + order[current]).hide();
+            current++;
+            ShowTrial(current);
+            if (current == 3) {accuracy()}
+        }
+
+        function divs(n) {
+            document.write('<div class="page" id="page'+n+'" '+'>');
+            document.write('<img src="'+n+'.jpg"><br>');
+            document.write('<input name="f'+n+'" value="M" type="radio"> M');
+            document.write('<input name="f'+n+'" value="F" type="radio"> F <br>');
+            document.write('<a href="javascript:NextTrial()">Next</a>');
+            document.write('<span class="progress"></span></div>');
+        }
+
+        function accuracy() {
+            var sum = 0;
+            var parA ="";
+            var ans = ['F', 'M', 'F'];
+            for (i=0; i<3; i++) {
+                parA = document.querySelector('input[name="f' + (i+1) + '"]:checked').value
+                if (parA == ans[i]) {sum += 1}
+            }
+            $("#accuracy").text('Accuracy : ' + 100*sum/3 + '%');
+        }
+    </script>
+
+    <style> .page {display: none;} </style>
+
+</head>
+
+<body cz-shortcut-listen="true">Please indicate the sex of this face:
+
+    <script>
+        divs(1, 'style="display: block;"');
+        for (i=1; i<4; i++) {
+            divs(i);
+        }
+    </script>
+
+    <div class="page" id="page4">
+        <h3>All done! Thanks!</h3>
+        <span id="accuracy"><\span>
+    </div>
